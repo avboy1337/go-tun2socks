@@ -1,3 +1,38 @@
+编译windows
+```
+sudo apt install mingw-w64 -y
+export GOOS=windows
+export GOARCH=amd64
+export CC=x86_64-w64-mingw32-gcc
+export CXX=x86_64-w64-mingw32-g++
+export CGO_ENABLED=1
+make
+```
+
+全局代理命令
+
+
+```
+chcp 65001
+REM 把原来的默认路由删除
+route delete 0.0.0.0 mask 0.0.0.0
+REM 192.168.8.1为原来网关
+REM route add 114.114.114.114 192.168.8.1 metric 5
+REM route add 8.8.8.8 192.168.8.1 metric 5
+REM 将发往代理服务器的流量转发到原来的网关 route add 代理服务器IP 原来网关IP metric 5
+route add 42.157.196.178 192.168.8.1 metric 5
+REM start cmd /k tun2socks.exe -proxyServer 127.0.0.1:1080 -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -tunGw 10.0.0.1 -tunName "tun" -tunDns 8.8.8.8,114.114.114.114
+start cmd /k tun2socks.exe -proxyServer 127.0.0.1:1080 -tunAddr 10.0.0.2 -tunMask 255.255.255.0 -tunGw 10.0.0.1 -tunName "tun"
+REM 延迟5秒
+choice /t 5 /d y /n >nul
+REM 虚拟网卡指定为默认的路由出口
+route add 0.0.0.0 mask 0.0.0.0 10.0.0.1 metric 5
+REM 指定默认路由出口为网关
+REM route add 0.0.0.0 mask 0.0.0.0 192.168.8.1 metric 5
+```
+
+
+
 # go-tun2socks
 
 [![Build Status](https://travis-ci.com/eycorsican/go-tun2socks.svg?branch=master)](https://travis-ci.com/eycorsican/go-tun2socks)
