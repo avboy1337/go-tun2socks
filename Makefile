@@ -15,7 +15,7 @@ CMDDIR=$(shell pwd)/cmd/tun2socks
 PROGRAM=tun2socks
 
 BUILD_CMD_Linux="cd $(CMDDIR) && $(GOBUILD_LINUX) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM) -v -tags '$(BUILD_TAGS)'"
-BUILD_WIN_CMD="cd $(CMDDIR) && $(GOBUILD_WIN) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM) -v -tags '$(BUILD_TAGS)'"
+BUILD_WIN_CMD="cd $(CMDDIR) && $(GOBUILD_WIN) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM).exe -v -tags '$(BUILD_TAGS)'"
 XBUILD_LINUX_CMD="cd $(BUILDDIR) && $(XGOCMD) -ldflags $(STATIC_RELEASE_LDFLAGS) -tags '$(BUILD_TAGS)' --targets=linux/* $(CMDDIR)"
 XBUILD_OTHERS_CMD="cd $(BUILDDIR) && $(XGOCMD) -ldflags $(RELEASE_LDFLAGS) -tags '$(BUILD_TAGS)' --targets=darwin/*,windows/*,android/*,ios/* $(CMDDIR)"
 
