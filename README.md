@@ -1,9 +1,15 @@
 编译windows
 ```
+git clone https://github.com/avboy1337/go-tun2socks
+cd go-tun2socks
+go get ./...
 make win
 ```
 编译linux
 ```
+git clone https://github.com/avboy1337/go-tun2socks
+cd go-tun2socks
+go get ./...
 make linux
 ```
 全局代理命令
