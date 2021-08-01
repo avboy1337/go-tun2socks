@@ -1,6 +1,5 @@
 GOCMD_LINUX=go
-GOCMD_WIN=export GOOS=windows && export GOARCH=amd64 && export CC=x86_64-w64-mingw32-gcc && export CXX=x86_64-w64-mingw32-g+
-+ && export CGO_ENABLED=1 && go
+GOCMD_WIN=export GOOS=windows && export GOARCH=amd64 && export CC=x86_64-w64-mingw32-gcc && export CXX=x86_64-w64-mingw32-g++ && export CGO_ENABLED=1 && go
 XGOCMD=xgo
 GOBUILD_LINUX=$(GOCMD_LINUX) build
 GOBUILD_WIN=$(GOCMD_WIN) build
