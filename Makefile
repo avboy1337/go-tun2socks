@@ -1,6 +1,9 @@
-GOCMD=go
+GOCMD_LINUX=go
+GOCMD_WIN=export GOOS=windows && export GOARCH=amd64 && export CC=x86_64-w64-mingw32-gcc && export CXX=x86_64-w64-mingw32-g+
++ && export CGO_ENABLED=1 && go
 XGOCMD=xgo
-GOBUILD=$(GOCMD) build
+GOBUILD_LINUX=$(GOCMD_LINUX) build
+GOBUILD_WIN=$(GOCMD_WIN) build
 GOCLEAN=$(GOCMD) clean
 VERSION=$(shell git describe --tags)
 DEBUG_LDFLAGS=''
@@ -11,7 +14,8 @@ BUILDDIR=$(shell pwd)/build
 CMDDIR=$(shell pwd)/cmd/tun2socks
 PROGRAM=tun2socks
 
-BUILD_CMD="cd $(CMDDIR) && $(GOBUILD) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM) -v -tags '$(BUILD_TAGS)'"
+BUILD_CMD_Linux="cd $(CMDDIR) && $(GOBUILD_LINUX) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM) -v -tags '$(BUILD_TAGS)'"
+BUILD_WIN_CMD="cd $(CMDDIR) && $(GOBUILD_WIN) -ldflags $(RELEASE_LDFLAGS) -o $(BUILDDIR)/$(PROGRAM) -v -tags '$(BUILD_TAGS)'"
 XBUILD_LINUX_CMD="cd $(BUILDDIR) && $(XGOCMD) -ldflags $(STATIC_RELEASE_LDFLAGS) -tags '$(BUILD_TAGS)' --targets=linux/* $(CMDDIR)"
 XBUILD_OTHERS_CMD="cd $(BUILDDIR) && $(XGOCMD) -ldflags $(RELEASE_LDFLAGS) -tags '$(BUILD_TAGS)' --targets=darwin/*,windows/*,android/*,ios/* $(CMDDIR)"
 
@@ -19,8 +23,10 @@ all: build
 
 build:
 	mkdir -p $(BUILDDIR)
-	eval $(BUILD_CMD)
-
+	eval $(BUILD_CMD_Linux)
+win:
+	mkdir -p $(BUILDDIR)
+	eval $(BUILD_WIN_CMD)
 xbuild_linux:
 	mkdir -p $(BUILDDIR)
 	eval $(XBUILD_LINUX_CMD)
